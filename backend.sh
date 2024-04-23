@@ -49,34 +49,38 @@ else
      echo -e "expense user already create...$Y skipping $N" 
 fi         
 
-mkdir -p /app
+mkdir -p /app &>>$LOGFILE
 VALIDATE $? "creating app directory"
 
-curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
+curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOGFILE
 VALIDATE $? "downloading backend code"
 
 cd /app
-unzip /tmp/backend.zip
+unzip /tmp/backend.zip &>>$LOGFILE
 VALIDATE $? "extracted backend code"
 
-npm install
+npm install &>>$LOGFILE
 VALIDATE $? "installing nodejs dependencies"
 
-cp /home/ec2-user/expensive-shell/backend.service /etc/systemd/system/backend.service
+cp /home/ec2-user/expensive-shell/backend.service /etc/systemd/system/backend.service &>>$LOGFILE
 VALIDATE $? "copied backend service"
 
-systemctl daemon-reload
-systemctl start backend
-systemctl enable backend
-VALIDATE $? "starting and enabling backend"
+systemctl daemon-reload &>>$LOGFILE
+VALIDATE $? "daemon reloading"
 
-dnf install mysql -y
+systemctl start backend &>>$LOGFILE
+VALIDATE $? "starting backend"
+
+systemctl enable backend &>>$LOGFILE
+VALIDATE $? "enabling backend"
+
+dnf install mysql -y &>>$LOGFILE
 VALIDATE $? "installing mysql client"
 
-mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -p${mysql_root_password} < /app/schema/backend.sql
+mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
 VALIDATE $? "schema loading"
 
-systemctl restart backend
+systemctl restart backend &>>$LOGFILE
 VALIDATE $? "restarting backend"
 
 
