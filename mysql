@@ -10,7 +10,7 @@ Y="\e[33m"
 N="\e[0m"
 
 echo "please enter db password:"
-read -s "mysql_root_password"
+read -s mysql_root_password
 
 
 VALIDATE(){
@@ -49,7 +49,7 @@ mysql -h db.daws78s.online -uroot -p${mysql_root_password} -e 'show databases;' 
 if [ $? -ne 0 ]
 then
      mysql_secure_installation --set-root-pass ${mysql_root_password} &>>$LOGFILE
-     VALIDATE $? "mysql root password setup"
+     VALIDATE $? "Mysql Root password setup"
 else
-     echo -e "mysql root password is already setup...$Y Skipping $N"     
+     echo -e "Mysql Root password is already setup...$Y Skipping $N"     
 fi
