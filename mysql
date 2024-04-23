@@ -8,7 +8,6 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-
 echo "please enter db password:"
 read -s mysql_root_password
 
@@ -44,7 +43,6 @@ VALIDATE $? "starting mysql server"
 # VALIDATE $? "setting up root password"
 
 #below code useful for idemoitency
-
 mysql -h db.baali6089.online -uroot -p${mysql_root_password} -e 'show databases;' &>>$LOGFILE
 if [ $? -ne 0 ]
 then
