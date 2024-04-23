@@ -9,7 +9,7 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 echo "please enter db password:"
-read -s mysql_root_password
+read mysql_root_password
 
 
 VALIDATE(){
@@ -56,6 +56,7 @@ curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expen
 VALIDATE $? "downloading backend code"
 
 cd /app
+rm -rf /app/*
 unzip /tmp/backend.zip &>>$LOGFILE
 VALIDATE $? "extracted backend code"
 
